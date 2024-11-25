@@ -3,8 +3,7 @@
 # Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
 This is a Function code for estimating of 2D ETAS parameters with uniform horizontal 
-background. This code will use LLrecipes to call most of 
-the functions. 
+background. This code will use LLrecipes to call most of the functions. 
 '''
 
 ########################## Importing Required Modules #########################

@@ -3,7 +3,7 @@
 # Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
 This code estimates standard 2D ETAS parameters for 6 large earthquakes in California. 
-Background rate is uniform horizontally.
+Background rate is horizontally uniform.
 '''
 
 ########################## Importing Required Modules #########################

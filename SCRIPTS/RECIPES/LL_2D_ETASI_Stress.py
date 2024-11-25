@@ -1,6 +1,9 @@
-# GFZ
+# GFZ & Uni Potsdam
+# Date: November 2024
+# Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
-This is a Function code for estimating of 2D ETASI parameters with uniform horizontal 
+This is a Function code for estimating of 2D ETASI parameters by considering 
+unisotropic kernel using stress patern for mainshock with uniform horizontal 
 background which is depth dependent. This code will use LLrecipes to call most of 
 the functions. 
 '''

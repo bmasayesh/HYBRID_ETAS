@@ -1,4 +1,6 @@
-# GFZ
+# GFZ & Uni Potsdam
+# Date: November 2024
+# Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
 This is a Function code for estimating of 2D ETAS parameters by considering 
 unisotropic kernel using stress patern for mainshock with uniform horizontal 

@@ -1,9 +1,11 @@
-# GFZ
+# GFZ & Uni Potsdam
+# Date: November 2024
+# Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
-This is a Function code for estimating of 2D ETASI parameters with uniform horizontal 
-background which is depth dependent. This code will use LLrecipes to call most of 
-the functions. 
+This is a Function code for estimating of 2D ETAS parameters with uniform horizontal 
+background. This code will use LLrecipes to call most of the functions. 
 '''
+
 ########################## Importing Required Modules #########################
 import sys
 import numpy as np
@@ -77,27 +79,27 @@ def LLoptimize(x0, tsteps, t, m, ti, mi, Ri, Mcut, T1, T2, Nind, Nij, A, TmaxTri
     return mu, K, alpha, c, p, d0, gamma, q, b, bDT, -res.fun
 
 def setstartparameter(N, A, T1, T2):
-    # mu = 0.5*N/(A*(T2-T1))
-    # K     = 0.05   
-    # alpha = 1.0                 
-    # c     = 0.01    # [days]
-    # p     = 1.3
-    # d0    = 0.013   # ... with d = d0 * 10^(gamma*M) 
-    # gamma = 0.5     # L(M) = d0*10^(gamma*M); d0=0.013  gamma=0.5  (Wells & Coppersmith 1994; RLD normal faulting)
-    # q     = 0.5     # spatial probability density: f(r) = (q-1)/(pi*D^2) * ( 1 + r^2/D^2 )^(-(1+q))
-    # b     = 1.0
-    # bDT   = 100.0 / (24 * 60 * 60.0)   #  blind time
+    mu = 0.5*N/(A*(T2-T1))
+    K     = 0.05   
+    alpha = 1.0                 
+    c     = 0.01    # [days]
+    p     = 1.3
+    d0    = 0.013   # ... with d = d0 * 10^(gamma*M) 
+    gamma = 0.5     # L(M) = d0*10^(gamma*M); d0=0.013  gamma=0.5  (Wells & Coppersmith 1994; RLD normal faulting)
+    q     = 0.5     # spatial probability density: f(r) = (q-1)/(pi*D^2) * ( 1 + r^2/D^2 )^(-(1+q))
+    b     = 1.0
+    bDT   = 100.0 / (24 * 60 * 60.0)   #  blind time
     
-    mu = 0.104
-    K     = 0.04   
-    alpha = 0.4                 
-    c     = 0.005    # [days]
-    p     = 0.9
-    d0    = 0.015   # ... with d = d0 * 10^(gamma*M) 
-    gamma = 0.4     # L(M) = d0*10^(gamma*M); d0=0.013  gamma=0.5  (Wells & Coppersmith 1994; RLD normal faulting)
-    q     = 0.45     # spatial probability density: f(r) = (q-1)/(pi*D^2) * ( 1 + r^2/D^2 )^(-(1+q))
-    b     = 0.8
-    bDT   = 30
+    # mu = 0.104
+    # K     = 0.04   
+    # alpha = 0.4                 
+    # c     = 0.005    # [days]
+    # p     = 0.9
+    # d0    = 0.015   # ... with d = d0 * 10^(gamma*M) 
+    # gamma = 0.4     # L(M) = d0*10^(gamma*M); d0=0.013  gamma=0.5  (Wells & Coppersmith 1994; RLD normal faulting)
+    # q     = 0.45     # spatial probability density: f(r) = (q-1)/(pi*D^2) * ( 1 + r^2/D^2 )^(-(1+q))
+    # b     = 0.8
+    # bDT   = 30
     return np.asarray([mu, K, alpha, c, p, d0, gamma, q, b, bDT])
 
 def determine_ETASparameter(tall, latall, lonall, mall, Mcut, T1, T2, A, TmaxTrig):

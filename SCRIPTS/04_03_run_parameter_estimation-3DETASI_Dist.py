@@ -1,6 +1,8 @@
-## GFZ February 2024
+# GFZ & Uni Potsdam
+# Date: November 2024
+# Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
-We estimate 3D ETAS parameters by considering distance to the fault plane of the 
+We estimate 3D ETASI parameters by considering distance to the fault plane of the 
 mainshock insteed of distance to the hypocenter of mainshocks for 6 large earthquakes
 in California.
 '''
@@ -60,30 +62,26 @@ def estimate_parameters_ETASI_3D_distance_to_fault(Paradir, name, latf, lonf, zf
     return
 
 ####################### Inputs and Outputs  directories #######################
-Seqdir  = '../INPUTS/CATALOGS/SEQUENCES'                      ## directory of sequences
-Paradir = '../OUTPUTS/PARAMETERS/3D ETAS/ETASI_DIST'          ## directory of parameters 
-Distdir = '../OUTPUTS/DISTANCE-RESULTS/ALL-SUBFAULTS/3D'      ## directory of stress results
+Seqdir  = '../INPUTS/CATALOGS/SEQUENCES'               ## directory of sequences
+Paradir = '../OUTPUTS/PARAMETERS/3D ETAS/ETASI_R'      ## directory of parameters 
+Distdir = '../OUTPUTS/DISTANCE-RESULTS/3D'             ## directory of stress results
 
 ########################### Declaring of Parameters ###########################
 Mcut = 1.95
 Z1 = 0.0
 Z2 = 30
-stdmin = 0.5   # [km] minimum smoothing kernel
+stdmin = 0.5                         # [km] minimum smoothing kernel
 Nnearest = 5
 
-R = 100.0     # [km]
-T0 = -300.0    # days befor mainshock
-T1 = -100.0   # [days] start time of the LL-fit
-T2 = 100.0    # [days] end time of the LL-fit
-TmaxTrig = 1000.0  # [days] maximum length of triggering
+R = 100.0                            # [km]
+T0 = -300.0                          # days befor mainshock
+T1 = -100.0                          # [days] start time of the LL-fit
+T2 = 100.0                           # [days] end time of the LL-fit
+TmaxTrig = 1000.0                    # [days] maximum length of triggering
 
 A = np.pi * np.square(R)
-dr = 1.0   # [km] spatial grid spacing in x, y, z direction
-# stressmax = 1e7  # [Pa] ... 10 MPa
-
-tmain = 0.0   # [days] time of the mainshock
-# set fake event (after fit period) for the second mainshock:
-# tmain2=T2+1.0; Mmain2=0.0
+dr = 1.0                             # [km] spatial grid spacing in x, y, z direction
+tmain = 0.0                          # [days] time of the mainshock
 
 ### ===========================================================================
 '''
@@ -91,19 +89,13 @@ First we introduce the name of the large events or sequences and then choose the
 sequence for calculating ETAS parameters
 '''
 names = ['SuperstitionHill', 'Landers', 'Northridge', 'HectorMine', 'BajaCalifornia', 'Ridgecrest']
-# name = names[4]
 
-### ===========================================================================
-'''
-Then we estimate 3D-ETASI parameters
-'''
-#================================ 3D-ETASI_DIST estimation =========================
-##************************* This part is for puting in lup ********************
-for i in range(4, 5):   
+##=========== 3D ETASI+Distance to fault plane parameter estimation ===========
+for i in range(4, 5):         ## Here we just chose Baja California      
     name = names[i]
     slipmodels = read_slipmodelnames(name)
     lati, loni, zi, dist = read_distance2fault(Distdir, name, slipmodels, dr)
-    print('\n\t Estimation of 3D ETASI + Distance parameter for %s sequence' % (name))
+    print('\n\t Estimation of 3D ETASI + R parameter for %s sequence' % (name))
     data = np.loadtxt('%s/california_1981_2022-Mcut%.2f-R100.0km-T%.0f-%.0fdays-%s.kat' % (Seqdir, Mcut, T0, T2, name), skiprows=1)
     Mmain = data[0, 5]
     t = data[1:, 1]

@@ -1,8 +1,9 @@
-# GFZ
-# Date:
+# GFZ & Uni Potsdam
+# Date: November 2024
+# Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
-We estimate standard 2D ETASI parameters for 6 large earthquakes in California. 
-Background rate is uniform horizontally.
+This code estimates standard 2D ETASI parameters for 6 large earthquakes in California. 
+Background rate is horizontally  uniform.
 '''
 
 ########################## Importing Required Modules #########################
@@ -27,14 +28,14 @@ def estimate_parameters_2D_ETASI(Paradir, name, t, lat, lon, m, Mcut, T1, T2, Tm
     return
 
 ####################### Inputs and Outputs  directories #######################
-Seqdir  = '../INPUTS/CATALOGS/SEQUENCES'    ## directory of sequences
-Paradir = '../OUTPUTS/PARAMETERS/2D ETAS/ETASI'   ## directory of parameters 
+Seqdir  = '../INPUTS/CATALOGS/SEQUENCES'              ## directory of sequences
+Paradir = '../OUTPUTS/PARAMETERS/2D ETAS/ETASI'       ## directory of parameters 
 
 ########################### Declaring of Parameters ###########################
 Mcut = 1.95
 Z1 = 0.0
 Z2 = 30
-stdmin = 0.5   # [km] minimum smoothing kernel
+stdmin = 0.5                # [km] minimum smoothing kernel
 Nnearest = 5
 
 R = 100.0                   # Radius [km]
@@ -51,12 +52,8 @@ sequence for calculating ETAS parameters
 '''
 names = ['SuperstitionHill', 'Landers', 'Northridge', 'HectorMine', 'BajaCalifornia', 'Ridgecrest']
 
-### ===========================================================================
-'''
-Then we estimate 3D-ETAS parameters for each sequences.
-'''
-#===============================ETAS_3D estimation ============================
-for i in range(4, 5):  
+### ===================== 2D ETAS parameter esimation =========================
+for i in range(4, 5):         ## Here we just chose Baja California       
     name = names[i]
     print('\n\t Estimation of 2D ETASI parameters for %s sequence' % (name))
     data = np.loadtxt('%s/california_1981_2022-Mcut%.2f-R100.0km-T%.0f-%.0fdays-%s.kat' % (Seqdir, Mcut, T0, T2, name), skiprows=1)

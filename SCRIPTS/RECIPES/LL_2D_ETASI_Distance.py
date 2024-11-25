@@ -1,3 +1,11 @@
+# GFZ & Uni Potsdam
+# Date: November 2024
+# Authors: Behnam Maleki Asayesh & Sebastian Hainzl
+'''
+This is a Function code for estimating of 2D ETASI parameters by considering 
+anisotropic kernel using distance to the fault plane of mainshock with uniform horizontal 
+background. This code will use LLrecipes to call most of the functions. 
+'''
 ########################## Importing Required Modules #########################
 import sys
 import LLrecipes

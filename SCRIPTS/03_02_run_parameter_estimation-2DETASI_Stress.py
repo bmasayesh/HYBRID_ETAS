@@ -1,8 +1,9 @@
-# GFZ
-# Date:
+# GFZ & Uni Potsdam
+# Date: November 2024
+# Authors: Behnam Maleki Asayesh & Sebastian Hainzl
 '''
-We estimate standard 2D ETASI parameters by considering stress scalars from 
-mainshocks for 6 large earthquakes in California.
+This code estimates 2D ETASI parameters by considering stress scalars from mainshocks for 
+6 large earthquakes in California.
 '''
 
 ########################## Importing Required Modules #########################
@@ -36,7 +37,7 @@ def read_stressmaps(Stressdir, name, slipmodels, stressvalue, meanstressmodel, s
     data1 = data[data[:, 2]==0.5]
     lati = data1[:, 0]
     loni = data1[:, 1]
-    CFS = data[:, 3]
+    MAS = data[:, 3]
     VM = data[:, 4]
     MS = data[:, 5]
     VMS = data[:, 6]
@@ -44,15 +45,15 @@ def read_stressmaps(Stressdir, name, slipmodels, stressvalue, meanstressmodel, s
         for ns in range(1, len(slipmodels)):
             datname = '%s/stressmetrics-%s-dr%.1fkm.out' % (Stressdir, slipmodels[ns], dr)
             data = np.loadtxt(datname, skiprows=1)
-            CFS += data[:, 3]
+            MAS += data[:, 3]
             VM += data[:, 4]
             MS += data[:, 5]
             VMS += data[:, 6]
     norm = 1.0 * len(slipmodels)
-    CFS /= norm
-    CFS1 = CFS.reshape(-1, 30)
-    CFS1[CFS1 < 0] = 0
-    CFS_mean = np.clip(np.mean(CFS1, axis=1), 0, stressmax)
+    MAS /= norm
+    MAS1 = MAS.reshape(-1, 30)
+    MAS1[MAS1 < 0] = 0
+    MAS_mean = np.clip(np.mean(MAS1, axis=1), 0, stressmax)
     VM /= norm
     VM1 = VM.reshape(-1, 30)
     VM1[VM1 < 0] = 0
@@ -65,8 +66,8 @@ def read_stressmaps(Stressdir, name, slipmodels, stressvalue, meanstressmodel, s
     VMS1 = VMS.reshape(-1, 30)
     VMS1[VMS1 < 0] = 0 
     VMS_mean = np.clip(np.mean(VMS1, axis=1), 0, stressmax)
-    if stressvalue == 'CFS':
-        stress = CFS_mean
+    if stressvalue == 'MAS':
+        stress = MAS_mean
     elif stressvalue == 'VM':
         stress = VM_mean
     elif stressvalue == 'MS':
@@ -99,19 +100,19 @@ Stressdir = '../OUTPUTS/STRESS-RESULTS'     ## directory of stress results
 Mcut = 1.95
 Z1 = 0.0
 Z2 = 30
-stdmin = 0.5        # [km] minimum smoothing kernel
+stdmin = 0.5                    # [km] minimum smoothing kernel
 Nnearest = 5
 
-R = 100.0           # [km]
-T0 = -300.0         # days befor mainshock
-T1 = -100.0         # [days] start time of the LL-fit
-T2 = 100.0          # [days] end time of the LL-fit
-TmaxTrig = 1000.0   # [days] maximum length of triggering
+R = 100.0                       # [km]
+T0 = -300.0                     # days befor mainshock
+T1 = -100.0                     # [days] start time of the LL-fit
+T2 = 100.0                      # [days] end time of the LL-fit
+TmaxTrig = 1000.0               # [days] maximum length of triggering
 
 A = np.pi * np.square(R)
-dr = 1.0           # [km] spatial grid spacing in x, y, z direction
-stressmax = 1e7    # [Pa] ... 10 MPa
-tmain = 0.0        # [days] time of the mainshock
+dr = 1.0                        # [km] spatial grid spacing in x, y, z direction
+stressmax = 1e7                 # [Pa] ... 10 MPa
+tmain = 0.0                     # [days] time of the mainshock
 
 ### ===========================================================================
 '''
@@ -123,17 +124,21 @@ names = ['SuperstitionHill', 'Landers', 'Northridge', 'HectorMine', 'BajaCalifor
 ### ===========================================================================
 '''
 Then we select the stress scalar and consider mean of that stress scalar
+MAS: Coulomb Failure Stress (CFS) changes calculated for receivers having the same mechanism as the mainshock
+VM: Coulomb Failure Stress (CFS) changes for the variability of receiver mechanisms
+MS: Maximum change in Shear stress 
+VMS: von-Mises stres
 '''
-#stressvalues = ['CFS', 'VM', 'MS', 'VMS']
-stressvalue='CFS'
+#stressvalues = ['MAS', 'VM', 'MS', 'VMS']
+stressvalue='VMS'
 meanstressmodel = True
 
-##################### 2D ETASI + Stress estimation (using mainshock stress):
+### ====== 2D ETASI+Stress parameter estimation (using mainshock stress)=======
 '''
 For this part we need stress scalar due to each mainshock in each sequence then
 estimate ETAS parameters.
 '''
-for i in range(2, 3):  
+for i in range(4, 5):               ## Here we just chose Baja California
     name = names[i]
     slipmodels = read_slipmodelnames(name, meanstressmodel)
     lati, loni, probi = read_stressmaps(Stressdir, name, slipmodels, stressvalue, meanstressmodel, stressmax, dr)

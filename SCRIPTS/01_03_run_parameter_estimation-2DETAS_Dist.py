@@ -88,7 +88,7 @@ sequence for calculating ETAS parameters
 '''
 names = ['SuperstitionHill', 'Landers', 'Northridge', 'HectorMine', 'BajaCalifornia', 'Ridgecrest']
 
-### ====== 2D ETAS+Stress parameter estimation (using mainshock stress)========
+###====== 2D ETAS+Distance parameter estimation (using mainshock stress)=======
 '''
 For this part we need distance to fault plane of mainshock in each sequence then
 estimate ETAS parameters.
